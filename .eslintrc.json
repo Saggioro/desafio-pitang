@@ -16,9 +16,10 @@
     "plugins": [
         "@typescript-eslint",
         "prettier"
-        
+
     ],
     "rules": {
+        "camelcase": "off",
         "prettier/prettier": "error",
         "no-use-before-define": "off",
 			"@typescript-eslint/no-use-before-define": [
@@ -36,5 +37,5 @@
 	    "import/resolver": {
 	      "typescript": {}
 	    }
-	  } 
+	  }
 }
