@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import AppError from '../../errors/AppError';
 
+import 'dotenv/config';
 import routes from './routes';
 
 const app = express();
@@ -21,6 +22,6 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     .json({ status: 'error', error: 'Internal server error' });
 });
 
-app.listen(3333, () => {
-  console.log('Server started');
+app.listen(process.env.SERVER_PORT || 3333, () => {
+  console.log(`Server started at port ${process.env.SERVER_PORT || 3333}`);
 });
