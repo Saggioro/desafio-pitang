@@ -26,7 +26,7 @@ class CreateUserService {
     const valid = isValid(new Date(birth));
 
     if (!valid) {
-      throw new AppError("Date birth isn't valid");
+      throw new AppError("Date birth isn't in valid format");
     }
 
     if (sameCpf) {
