@@ -1,9 +1,13 @@
 import 'reflect-metadata';
+import 'dotenv/config';
+
 import express, { Request, Response, NextFunction } from 'express';
 import AppError from '../../errors/AppError';
 
-import 'dotenv/config';
 import routes from './routes';
+
+import '../typeorm';
+import '../../container';
 
 const app = express();
 
