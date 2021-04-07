@@ -14,8 +14,8 @@ class User {
   @Column()
   name: string;
 
-  @Column()
-  birth: string;
+  @Column('date')
+  birth: Date;
 
   @Column()
   password: string;

@@ -23,7 +23,7 @@ export default class CreateUser1617752732147 implements MigrationInterface {
           },
           {
             name: 'birth',
-            type: 'varchar',
+            type: 'date',
           },
           {
             name: 'password',
