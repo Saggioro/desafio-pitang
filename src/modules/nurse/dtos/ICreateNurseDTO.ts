@@ -3,3 +3,4 @@ interface ICreateNurseDTO {
   password: string;
   email: string;
 }
+export default ICreateNurseDTO;
