@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-import {} from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 
+import auth from '../../../config/auth';
 import ICreateUserDTO from '../dtos/ICreateUserDTO';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
@@ -12,11 +13,6 @@ interface IRequest {
   password: string;
 }
 
-interface IResponse {
-  user: User;
-  token: string;
-}
-
 @injectable()
 class AuthenticateUserService {
   constructor(
@@ -26,7 +22,7 @@ class AuthenticateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ cpf, password }: IRequest): Promise<IResponse> {
+  public async execute({ cpf, password }: IRequest): Promise<string> {
     const user = await this.usersRepository.findByCpf(cpf);
 
     if (!user) {
@@ -41,6 +37,13 @@ class AuthenticateUserService {
     if (!matchPassword) {
       throw new AppError('Invalid cpf or password');
     }
+
+    const token = sign({ birth: user.birth }, auth.jwt.secret, {
+      subject: user.id,
+      expiresIn: auth.jwt.expiresIn,
+    });
+
+    return token;
   }
 }
 
