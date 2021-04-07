@@ -1,5 +1,5 @@
 {
-  "url": "process.env.DB_URL",
+  "url": "postgres://postgres:docker@localhost:5432",
 
   "entities": [
     "./src/modules/**/infra/typeorm/entities/*.ts"
@@ -11,3 +11,4 @@
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
   }
 }
+
