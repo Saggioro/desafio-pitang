@@ -1,4 +1,5 @@
 {
+  "type": "postgres",
   "url": "postgres://postgres:docker@localhost:5432",
 
   "entities": [
