@@ -11,7 +11,7 @@ class SessionsNurseController {
 
     const token = await authenticateNurseService.execute({ email, password });
 
-    return response.json(token);
+    return response.json({ token });
   }
 }
 export default SessionsNurseController;
