@@ -1,6 +1,6 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
-import AuthenticateNurseService from 'modules/nurse/services/AuthenticateNurseService';
+import AuthenticateNurseService from '../../../services/AuthenticateNurseService';
 
 class SessionsNurseController {
   public async create(request: Request, response: Response): Promise<Response> {
