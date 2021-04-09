@@ -5,6 +5,7 @@ import {
   UpdateDateColumn,
   Entity,
   OneToMany,
+  JoinTable,
 } from 'typeorm';
 import AppointmentUsers from './AppointmentUsers';
 
@@ -21,6 +22,13 @@ class Appointment {
 
   @Column()
   note: string;
+
+  @OneToMany(
+    () => AppointmentUsers,
+    appointmentUsers => appointmentUsers.user_id,
+  )
+  @JoinTable()
+  users: AppointmentUsers;
 
   @CreateDateColumn()
   created_at: Date;
