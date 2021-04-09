@@ -14,6 +14,9 @@ class AppointmentUsers {
   @Column('uuid')
   user_id: string;
 
+  @Column()
+  status: string;
+
   @CreateDateColumn()
   created_at: Date;
 
