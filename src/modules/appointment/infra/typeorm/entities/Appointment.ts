@@ -4,7 +4,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Entity,
+  OneToMany,
 } from 'typeorm';
+import AppointmentUsers from './AppointmentUsers';
 
 @Entity('appointments')
 class Appointment {
