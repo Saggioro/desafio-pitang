@@ -1,0 +1,90 @@
+import { inject, injectable } from 'tsyringe';
+import moment from 'moment';
+
+import IUsersRepository from 'modules/user/repositories/IUsersRepository';
+import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
+import Appointment from '../infra/typeorm/entities/Appointment';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import IAppointmentUsersRepository from '../repositories/IAppointmentUsersRepository';
+import AppError from '../../../shared/errors/AppError';
+import AppointmentUsers from '../infra/typeorm/entities/AppointmentUsers';
+
+interface IRequest {
+  user_id: string;
+  date: Date;
+  birth: Date;
+}
+
+@injectable()
+class CreateAppointmentService {
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+    @inject('AppointmentUsersRepository')
+    private appointmentUsersRepository: IAppointmentUsersRepository,
+  ) {}
+
+  public async execute({
+    date,
+    user_id,
+    birth,
+  }: IRequest): Promise<AppointmentUsers> {
+    const formatDate = moment(date, 'YYYY-MM-DD h:mm', true).format();
+
+    if (formatDate === 'Invalid date') {
+      throw new AppError('Invalid date format');
+    }
+    const range = 15;
+    // do days range
+
+    let quantity = 2;
+    if (
+      process.env.QUANTITY &&
+      !Number.isNaN(process.env.QUANTITY) &&
+      Number(process.env.QUANTITY) >= 1
+    ) {
+      quantity = Number(process.env.QUANTITY);
+    }
+
+    const alreadyBooked = await this.appointmentUsersRepository.findByUser(
+      user_id,
+    );
+
+    alreadyBooked.forEach(appointmentUser => {
+      if (appointmentUser.status === 'pending') {
+        throw new AppError('You already have an appointment booked');
+      }
+    });
+
+    const appointment = await this.appointmentsRepository.findByDate(date);
+
+    if (!appointment) {
+      const newAppointment = await this.appointmentsRepository.create({
+        date,
+      });
+
+      const userAppointment = await this.appointmentUsersRepository.create({
+        user_id,
+        appointment_id: newAppointment.id,
+      });
+
+      return userAppointment;
+    }
+
+    if (appointment.users.length > quantity) {
+      // appointment.users.forEach(appointmentUser => {
+      //   const age = appointmentUser.user.birth;
+      // });
+      throw new AppError('This schedule is already full');
+    }
+
+    const userAppointment = await this.appointmentUsersRepository.create({
+      appointment_id: appointment.id,
+      user_id,
+    });
+
+    return userAppointment;
+  }
+}
+
+export default CreateAppointmentService;
