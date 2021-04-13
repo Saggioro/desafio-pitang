@@ -1,9 +1,12 @@
+import User from 'modules/user/infra/typeorm/entities/User';
 import {
   Column,
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
   Entity,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('appointment_users')
@@ -16,6 +19,10 @@ class AppointmentUsers {
 
   @Column()
   status: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @CreateDateColumn()
   created_at: Date;
