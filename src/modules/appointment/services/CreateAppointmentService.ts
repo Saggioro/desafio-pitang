@@ -12,7 +12,6 @@ import AppointmentUsers from '../infra/typeorm/entities/AppointmentUsers';
 interface IRequest {
   user_id: string;
   date: Date;
-  birth: Date;
 }
 
 @injectable()
@@ -24,18 +23,21 @@ class CreateAppointmentService {
     private appointmentUsersRepository: IAppointmentUsersRepository,
   ) {}
 
-  public async execute({
-    date,
-    user_id,
-    birth,
-  }: IRequest): Promise<AppointmentUsers> {
+  public async execute({ date, user_id }: IRequest): Promise<AppointmentUsers> {
     const formatDate = moment(date, 'YYYY-MM-DD h:mm', true).format();
 
     if (formatDate === 'Invalid date') {
       throw new AppError('Invalid date format');
     }
-    const range = 15;
-    // do days range
+    const daysRange = 15;
+    const duration = 30;
+    const data = new Date(date);
+    const minutes = data.getMinutes();
+
+    // verify if the minutes are correct
+    if (minutes !== 0 || minutes % duration !== 0) {
+      throw new AppError('Invalid date time');
+    }
 
     let quantity = 2;
     if (
