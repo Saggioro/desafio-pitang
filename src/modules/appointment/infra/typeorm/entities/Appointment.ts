@@ -28,7 +28,7 @@ class Appointment {
     appointmentUsers => appointmentUsers.user_id,
   )
   @JoinTable()
-  users: AppointmentUsers;
+  users: AppointmentUsers[];
 
   @CreateDateColumn()
   created_at: Date;
