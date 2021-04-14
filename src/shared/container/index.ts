@@ -8,6 +8,8 @@ import INursesRepository from '../../modules/nurse/repositories/INursesRepositor
 import NursesRepository from '../../modules/nurse/infra/typeorm/repositories/NursesRepository';
 import IAppointmentsRepository from '../../modules/appointment/repositories/IAppointmentsRepository';
 import AppointmentsRepository from '../../modules/appointment/infra/typeorm/repositories/AppointmentsRepository';
+import IAppointmentUsersRepository from '../../modules/appointment/repositories/IAppointmentUsersRepository';
+import AppointmentUsersRepository from '../../modules/appointment/infra/typeorm/repositories/AppointmentUsersRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
@@ -17,4 +19,13 @@ container.registerSingleton<IUsersRepository>(
 container.registerSingleton<INursesRepository>(
   'NursesRepository',
   NursesRepository,
+);
+
+container.registerSingleton<IAppointmentsRepository>(
+  'AppointmentsRepository',
+  AppointmentsRepository,
+);
+container.registerSingleton<IAppointmentUsersRepository>(
+  'AppointmentUsersRepository',
+  AppointmentUsersRepository,
 );
