@@ -21,7 +21,7 @@ class AppointmentUser {
   @Column()
   status: 'pending' | 'canceled' | 'done';
 
-  @Column()
+  @Column('uuid')
   nurse_id: string;
 
   @ManyToOne(() => User)

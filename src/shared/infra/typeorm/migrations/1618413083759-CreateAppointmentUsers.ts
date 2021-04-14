@@ -22,7 +22,7 @@ export default class CreateAppointmentUsers1618413083759
           },
           {
             name: 'nurse_id',
-            type: 'varchar',
+            type: 'uuid',
             isNullable: true,
           },
           {
