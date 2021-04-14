@@ -1,13 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 import moment from 'moment';
 
-import IUsersRepository from 'modules/user/repositories/IUsersRepository';
-import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
-import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import IAppointmentUsersRepository from '../repositories/IAppointmentUsersRepository';
 import AppError from '../../../shared/errors/AppError';
-import AppointmentUsers from '../infra/typeorm/entities/AppointmentUsers';
+import AppointmentUser from '../infra/typeorm/entities/AppointmentUser';
 
 interface IRequest {
   user_id: string;
@@ -23,7 +20,7 @@ class CreateAppointmentService {
     private appointmentUsersRepository: IAppointmentUsersRepository,
   ) {}
 
-  public async execute({ date, user_id }: IRequest): Promise<AppointmentUsers> {
+  public async execute({ date, user_id }: IRequest): Promise<AppointmentUser> {
     const formatDate = moment(date, 'YYYY-MM-DD h:mm', true).format();
 
     if (formatDate === 'Invalid date') {
@@ -34,7 +31,7 @@ class CreateAppointmentService {
     const data = new Date(date);
     const minutes = data.getMinutes();
 
-    // verify if the minutes are correct
+    // check if the minutes are correct
     if (minutes !== 0 || minutes % duration !== 0) {
       throw new AppError('Invalid date time');
     }
@@ -68,6 +65,7 @@ class CreateAppointmentService {
       const userAppointment = await this.appointmentUsersRepository.create({
         user_id,
         appointment_id: newAppointment.id,
+        status: 'pending',
       });
 
       return userAppointment;
@@ -83,6 +81,7 @@ class CreateAppointmentService {
     const userAppointment = await this.appointmentUsersRepository.create({
       appointment_id: appointment.id,
       user_id,
+      status: 'pending',
     });
 
     return userAppointment;

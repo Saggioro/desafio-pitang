@@ -11,7 +11,7 @@ import {
 import Appointment from './Appointment';
 
 @Entity('appointment_users')
-class AppointmentUsers {
+class AppointmentUser {
   @PrimaryColumn('uuid')
   appointment_id: string;
 
@@ -19,7 +19,7 @@ class AppointmentUsers {
   user_id: string;
 
   @Column()
-  status: string;
+  status: 'pending' | 'canceled' | 'done';
 
   @Column()
   nurse_id: string;
@@ -39,4 +39,4 @@ class AppointmentUsers {
   updated_at: Date;
 }
 
-export default AppointmentUsers;
+export default AppointmentUser;

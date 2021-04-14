@@ -7,7 +7,7 @@ import {
   OneToMany,
   JoinTable,
 } from 'typeorm';
-import AppointmentUsers from './AppointmentUsers';
+import AppointmentUser from './AppointmentUser';
 
 @Entity('appointments')
 class Appointment {
@@ -20,12 +20,9 @@ class Appointment {
   @Column()
   note: string;
 
-  @OneToMany(
-    () => AppointmentUsers,
-    appointmentUsers => appointmentUsers.user_id,
-  )
+  @OneToMany(() => AppointmentUser, appointmentUser => appointmentUser.user_id)
   @JoinTable()
-  users: AppointmentUsers[];
+  users: AppointmentUser[];
 
   @CreateDateColumn()
   created_at: Date;
