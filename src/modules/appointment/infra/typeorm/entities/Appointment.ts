@@ -15,9 +15,6 @@ class Appointment {
   id: string;
 
   @Column()
-  nurse_id: string;
-
-  @Column()
   date: Date;
 
   @Column()

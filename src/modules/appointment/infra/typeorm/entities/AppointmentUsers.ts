@@ -8,6 +8,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import Appointment from './Appointment';
 
 @Entity('appointment_users')
 class AppointmentUsers {
@@ -20,9 +21,16 @@ class AppointmentUsers {
   @Column()
   status: string;
 
+  @Column()
+  nurse_id: string;
+
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @ManyToOne(() => Appointment)
+  @JoinColumn({ name: 'appointment_id' })
+  appointment: Appointment;
 
   @CreateDateColumn()
   created_at: Date;
