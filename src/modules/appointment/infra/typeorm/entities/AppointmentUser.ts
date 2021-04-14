@@ -1,4 +1,3 @@
-import User from 'modules/user/infra/typeorm/entities/User';
 import {
   Column,
   PrimaryColumn,
@@ -8,6 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import User from '../../../../user/infra/typeorm/entities/User';
 import Appointment from './Appointment';
 
 @Entity('appointment_users')
