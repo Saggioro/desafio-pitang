@@ -37,9 +37,13 @@ class AuthenticateUserService {
       throw new AppError('Invalid cpf or password');
     }
 
-    const token = sign({ birth: user.birth, id: user.id }, auth.jwt.secret, {
-      expiresIn: auth.jwt.expiresIn,
-    });
+    const token = sign(
+      { birth: user.birth, id: user.id },
+      auth.jwt.userSecret,
+      {
+        expiresIn: auth.jwt.expiresIn,
+      },
+    );
 
     return token;
   }

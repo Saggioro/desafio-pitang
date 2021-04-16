@@ -35,9 +35,13 @@ class AuthenticateNurseService {
       throw new AppError('Invalid email/password');
     }
 
-    const token = sign({ id: nurse.id, name: nurse.name }, auth.jwt.secret, {
-      expiresIn: auth.jwt.expiresIn,
-    });
+    const token = sign(
+      { id: nurse.id, name: nurse.name },
+      auth.jwt.nurseSecret,
+      {
+        expiresIn: auth.jwt.expiresIn,
+      },
+    );
 
     return token;
   }
