@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import CreateAppointmentService from 'modules/appointment/services/CreateAppointmentService';
 import { container } from 'tsyringe';
+import CreateAppointmentService from '../../../services/CreateAppointmentService';
 
 class AppointmentsController {
   public async create(request: Request, response: Response): Promise<Response> {
