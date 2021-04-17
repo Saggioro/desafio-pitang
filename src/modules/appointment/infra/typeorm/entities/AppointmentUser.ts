@@ -6,25 +6,32 @@ import {
   Entity,
   ManyToOne,
   JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import User from '../../../../user/infra/typeorm/entities/User';
 import Appointment from './Appointment';
 
 @Entity('appointment_users')
 class AppointmentUser {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   appointment_id: string;
 
-  @Column('uuid')
+  @Column()
   user_id: string;
 
   @Column()
   status: 'pending' | 'canceled' | 'done';
 
-  @Column('uuid')
+  @Column()
   nurse_id: string;
 
-  @ManyToOne(() => User)
+  @Column()
+  note: string;
+
+  @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
