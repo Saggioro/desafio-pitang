@@ -6,6 +6,7 @@ interface IAppointmentsRepository {
   save(appointment: Appointment): Promise<Appointment>;
   findByDate(date: Date): Promise<Appointment | undefined>;
   findByDay(date: Date): Promise<Appointment[]>;
+  findAllMoreThan(date: Date): Promise<Appointment[]>;
 }
 
 export default IAppointmentsRepository;
