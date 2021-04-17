@@ -1,5 +1,5 @@
-import IHashProvider from 'shared/container/providers/hashProvider/models/IHashProvider';
 import { inject, injectable } from 'tsyringe';
+import IHashProvider from '../../../shared/container/providers/hashProvider/models/IHashProvider';
 import ICreateNurseDTO from '../dtos/ICreateNurseDTO';
 import INursesRepository from '../repositories/INursesRepository';
 import AppError from '../../../shared/errors/AppError';
