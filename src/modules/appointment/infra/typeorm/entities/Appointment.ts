@@ -17,10 +17,11 @@ class Appointment {
   @Column()
   date: Date;
 
-  @Column()
-  note: string;
-
-  @OneToMany(() => AppointmentUser, appointmentUser => appointmentUser.user_id)
+  @OneToMany(
+    () => AppointmentUser,
+    appointmentUser => appointmentUser.appointment,
+    { eager: true },
+  )
   @JoinTable()
   users: AppointmentUser[];
 
