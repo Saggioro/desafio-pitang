@@ -1,7 +1,7 @@
 import ICreateAppointmentDTO from 'modules/appointment/dtos/ICreateAppointmentDTO';
 import IAppointmentsRepository from 'modules/appointment/repositories/IAppointmentsRepository';
 
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, MoreThan } from 'typeorm';
 import Appointment from '../entities/Appointment';
 
 class AppointmentsRepository implements IAppointmentsRepository {
@@ -29,6 +29,14 @@ class AppointmentsRepository implements IAppointmentsRepository {
 
   public async findByDay(date: Date): Promise<Appointment[]> {
     const appointments = await this.ormRepository.find({ where: { date } });
+
+    return appointments;
+  }
+
+  public async findAllMoreThan(date: Date): Promise<Appointment[]> {
+    const appointments = await this.ormRepository.find({
+      where: { date: MoreThan(date) },
+    });
 
     return appointments;
   }
