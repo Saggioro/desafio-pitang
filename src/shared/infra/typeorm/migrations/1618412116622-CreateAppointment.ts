@@ -18,10 +18,7 @@ export default class CreateAppointment1618412116622
             name: 'date',
             type: 'timestamp',
           },
-          {
-            name: 'note',
-            type: 'varchar',
-          },
+
           {
             name: 'created_at',
             type: 'timestamp',
