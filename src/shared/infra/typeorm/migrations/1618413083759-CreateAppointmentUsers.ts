@@ -8,9 +8,15 @@ export default class CreateAppointmentUsers1618413083759
         name: 'appointment_users',
         columns: [
           {
+            name: 'id',
+            isPrimary: true,
+            type: 'uuid',
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
+          {
             name: 'appointment_id',
             type: 'uuid',
-            isPrimary: true,
           },
           {
             name: 'user_id',
@@ -19,6 +25,11 @@ export default class CreateAppointmentUsers1618413083759
           {
             name: 'status',
             type: 'varchar',
+          },
+          {
+            name: 'note',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'nurse_id',
