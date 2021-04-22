@@ -55,7 +55,7 @@ class CreateAppointmentService {
     // CHECKS DURATION
     const minutes = data.getMinutes();
 
-    if (minutes !== 0 || minutes % duration !== 0) {
+    if (minutes !== 0 && minutes % duration !== 0) {
       throw new AppError('Invalid date hour/minute');
     }
 
