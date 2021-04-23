@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 
 import {
   isBefore,
-  startOfHour,
   startOfDay,
   addMinutes,
   addDays,
@@ -11,8 +10,8 @@ import {
   getYear,
   getMonth,
   getHours,
-  subHours,
   isEqual,
+  differenceInYears,
 } from 'date-fns';
 
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
@@ -24,6 +23,7 @@ interface IResponse {
 }
 
 interface IRequest {
+  birth: Date;
   duration: number;
   daysRange: number;
   quantity: number;
@@ -38,13 +38,12 @@ class GetAppointmentAvailabilityService {
   ) {}
 
   public async execute({
+    birth,
     dayQuantityLimit,
     daysRange,
     quantity,
     duration,
   }: IRequest): Promise<IResponse[]> {
-    console.log('começo');
-
     let start = addHours(startOfDay(new Date()), 8);
 
     // while (isBefore(start, new Date())) {
@@ -78,10 +77,20 @@ class GetAppointmentAvailabilityService {
       startOfDay(new Date()),
     );
 
+    const userAge = differenceInYears(new Date(), new Date(birth));
+
     appointments.forEach(appointment => {
-      const peding = appointment.users.filter(
-        user => user.status === 'pending',
-      );
+      // checks if the user is eldearly to return appointments times that he can steal
+      let peding;
+      if (userAge >= 60) {
+        peding = appointment.users.filter(
+          user =>
+            user.status === 'pending' &&
+            differenceInYears(new Date(), new Date(user.user.birth)) < 60,
+        );
+      } else {
+        peding = appointment.users.filter(user => user.status === 'pending');
+      }
 
       if (peding.length > 0) {
         const date = getDate(appointment.date);
