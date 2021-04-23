@@ -18,7 +18,7 @@ appointmentsRouter.post(
 
 appointmentsRouter.get(
   '/availability',
-
+  ensureUserAuthenticated,
   appointmentsAvailabilityController.index,
 );
 
