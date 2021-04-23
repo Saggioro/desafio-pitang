@@ -4,6 +4,7 @@ import GetAppointmentAvailabilityService from '../../../services/GetAppointmentA
 
 class AppointmentsAvailabilityController {
   public async index(request: Request, response: Response): Promise<Response> {
+    const { birth } = request.user;
     let daysRange = 15;
     let quantity = 2;
     let duration = 30;
@@ -49,6 +50,7 @@ class AppointmentsAvailabilityController {
     );
 
     const appointments = await getAppointmentAvailabilityService.execute({
+      birth,
       quantity,
       duration,
       daysRange,
