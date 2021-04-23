@@ -60,7 +60,11 @@ class CreateAppointmentService {
     }
 
     // CHECKS IF APPOINTMENT IS ON PREDETERMINED RANGE DAYS
-    if (!moment(data).isBefore(moment(new Date()).add(daysRange, 'days'))) {
+    if (
+      !moment(data).isBefore(
+        moment(new Date()).add(daysRange, 'days').endOf('day'),
+      )
+    ) {
       throw new AppError("You can't create an appointment too far on future");
     }
 
@@ -74,6 +78,19 @@ class CreateAppointmentService {
         throw new AppError('You already have an appointment booked');
       }
     });
+
+    // CHECKS IF THE DAY SCHEDULE IS ON MAX LIMIT
+    const dayAppointments = await this.appointmentsRepository.findByDay(
+      moment(date).startOf('day').toDate(),
+      moment(date).endOf('day').toDate(),
+    );
+    const totalAppointmentsDay = dayAppointments.reduce(
+      (acc, curr) => acc + curr.users.length,
+      0,
+    );
+    if (totalAppointmentsDay >= dayQuantityLimit) {
+      throw new AppError('The max day appointments limit has been reached');
+    }
 
     const appointment = await this.appointmentsRepository.findByDate(date);
 
@@ -96,11 +113,6 @@ class CreateAppointmentService {
     const pendingAppointments = appointment.users.filter(
       appointmentUser => appointmentUser.status === 'pending',
     );
-
-    // CHECKS IF THE DAY SCHEDULE IS ON MAX LIMIT
-    if (pendingAppointments.length >= dayQuantityLimit) {
-      throw new AppError('The day schedule is on max limit');
-    }
 
     // CHECKS IF THE APPOINTMENT IS FULL
     if (pendingAppointments.length >= quantity) {
