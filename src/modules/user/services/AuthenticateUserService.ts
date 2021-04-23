@@ -38,7 +38,7 @@ class AuthenticateUserService {
     }
 
     const token = sign(
-      { birth: user.birth, id: user.id },
+      { birth: user.birth, id: user.id, name: user.name },
       auth.jwt.userSecret,
       {
         expiresIn: auth.jwt.expiresIn,
