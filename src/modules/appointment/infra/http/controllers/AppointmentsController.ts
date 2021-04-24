@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import GetUserBookedAppointmentService from '../../../services/GetUserBookedAppointmentService';
 import CreateAppointmentService from '../../../services/CreateAppointmentService';
 
 class AppointmentsController {
@@ -62,6 +63,28 @@ class AppointmentsController {
     });
 
     return response.status(201).json({ appointmentUser });
+  }
+
+  public async find(request: Request, response: Response): Promise<Response> {
+    const { id } = request.user;
+    const getUserBookedAppointmentService = container.resolve(
+      GetUserBookedAppointmentService,
+    );
+
+    const {
+      appointment,
+      userAppointments,
+    } = await getUserBookedAppointmentService.execute(id);
+
+    const appointmentUser = userAppointments.map(userAppointment => {
+      return userAppointment.id;
+    });
+
+    return response.json({
+      id: appointment.id,
+      date: appointment.date,
+      appointmentUser,
+    });
   }
 }
 
