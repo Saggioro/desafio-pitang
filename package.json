@@ -7,7 +7,7 @@
     "start": "node dist/shared/infra/http/server.js",
     "dev": "ts-node-dev --files --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "buid": "tsc"
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
