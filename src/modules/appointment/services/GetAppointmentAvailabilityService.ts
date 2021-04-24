@@ -86,7 +86,7 @@ class GetAppointmentAvailabilityService {
         peding = appointment.users.filter(
           user =>
             user.status === 'pending' &&
-            differenceInYears(new Date(), new Date(user.user.birth)) < 60,
+            differenceInYears(new Date(), new Date(user.user.birth)) > 60,
         );
       } else {
         peding = appointment.users.filter(user => user.status === 'pending');
