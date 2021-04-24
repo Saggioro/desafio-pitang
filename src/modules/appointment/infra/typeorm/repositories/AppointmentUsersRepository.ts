@@ -27,5 +27,13 @@ class AppointmentUsersRepository implements IAppointmentUsersRepository {
   public async findByUser(user_id: string): Promise<AppointmentUser[]> {
     return this.ormRepository.find({ where: { user_id } });
   }
+
+  public async findById(id: string): Promise<AppointmentUser | undefined> {
+    const appointmentUser = await this.ormRepository.findOne({
+      where: { id },
+    });
+
+    return appointmentUser || undefined;
+  }
 }
 export default AppointmentUsersRepository;
