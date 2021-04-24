@@ -3,7 +3,9 @@ declare namespace Express {
     user: {
       id: string;
       birth: Date;
-      name: string;
+    };
+    nurse: {
+      id: string;
     };
   }
 }
