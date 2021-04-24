@@ -7,6 +7,7 @@ interface IAppointmentsRepository {
   findByDate(date: Date): Promise<Appointment | undefined>;
   findByDay(startOfDay: Date, endOfDay: Date): Promise<Appointment[]>;
   findAllMoreThan(date: Date): Promise<Appointment[]>;
+  findById(id: string): Promise<Appointment | undefined>;
 }
 
 export default IAppointmentsRepository;
